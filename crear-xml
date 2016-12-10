@@ -1,0 +1,148 @@
+using System;
+using System.Text;
+using System.IO;
+using System.Xml.Serialization;
+using System.Xml.Linq;
+using System.Xml;
+
+namespace ConsoleApplication1
+{
+    class Program
+    {
+        public int X { get; set; }
+        static void Main(string[] args)
+        {
+            //clsPerson p = new clsPerson();
+            //p.FirstName = "Jeff";
+            //p.MI = "A";
+            //p.LastName = "Price";
+            //System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(p.GetType());
+            //x.Serialize(Console.Out, p);
+            //Console.WriteLine();
+            //Console.ReadLine();
+
+
+
+            FAL_CMRCREACONTACTO t = new FAL_CMRCREACONTACTO { Id = "FAL_CMRCREACONTACTO" };
+            //t.Id = "FAL_CMRCREACONTACTO";
+            var serializer = new XmlSerializer(typeof(FAL_CMRCREACONTACTO));
+            XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+            ns.Add(string.Empty, string.Empty);
+            string utf8;
+            using (StringWriter writer = new Utf8StringWriter())
+            {
+                serializer.Serialize(writer, t, ns);
+                utf8 = writer.ToString();
+            }
+            //XmlDocument xmlDoc = new XmlDocument();
+            //xmlDoc.LoadXml(utf8);
+
+
+            //XmlNode node = xmlDoc.SelectSingleNode("Servicio");
+            //xmlDoc.DocumentElement.Attributes.Append(xmlDoc.CreateAttribute("Id")).Value = "FAL_CMRCREACONTACTO";
+
+
+            //node.Attributes.Append(xmlDoc.CreateAttribute("id", "fsdf"));
+            //string xml = XDocument.Parse(xmlDoc.).ToString();
+            //string xml = XDocument.Parse(xmlDoc.InnerXml).ToString();
+            //string xml = xmlDoc.OuterXml;
+
+            //XmlNodeList elemlist = xmlDoc.GetElementsByTagName("NroDoc");
+            //string result = elemlist[0].InnerXml; 
+            //string result =  elemlist[0].LocalName.ToString() +  @"Id =dfasdfasd"; 
+
+
+            //XmlElement id = xmlDoc.CreateElement("id");
+            //id.SetAttribute("userName", "Tushar");
+            //-------------------------------
+            //XmlNodeList dataNodes = doc.GetElementsByTagName("DATA");
+            //if (dataNodes != null && dataNodes.Count > 1)
+            //{
+            //    dataNodes[0].Attributes.Append(doc.CreateAttribute("D_COMMS", "On this date we said"));
+            //}
+
+            //-------------
+            string path = @"D:\xml\testfile.xml";
+            //////guardar el archivo XML
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(path))
+            {
+                file.Write(utf8);
+            }
+
+            //----------------
+            //Console.WriteLine(utf8);
+            //Console.ReadLine();
+
+
+        }
+
+    }
+    [XmlType(TypeName = "Servicio")]
+    public class FAL_CMRCREACONTACTO
+    {
+        [XmlAttribute("Id")]
+        public string Id { get; set; }
+        //[XmlElement("Fec_Transaccion")]
+        public DateTime Fec_Transaccion { get; set; }
+        public DateTime Hora_Transaccion { get; set; }
+        public string Usuario { get; set; }
+        public int NroDoc { get; set; }
+        public string TipoDoc { get; set; }
+        public int NroCuentaUnica { get; set; }
+        public string Apellido { get; set; }
+        public string Nombre { get; set; }
+        public char sexo { get; set; }
+        public string EstCivil { get; set; }
+        public DateTime FecNacimiento { get; set; }
+        public string Profesion { get; set; }
+        public String Nivel_estudio { get; set; }
+        public string Nacionalidad { get; set; }
+        public string Familiares_a_cargo { get; set; }
+        public string mail { get; set; }
+        public string Status { get; set; }
+        public string ObsComercial { get; set; }
+        public string ObsCobranzas { get; set; }
+        public string Sucursal { get; set; }
+        public string P_Calle { get; set; }
+        public int P_Numero { get; set; }
+        public int P_Piso { get; set; }
+        public string P_Depto { get; set; }
+        public string P_Localidad { get; set; }
+        public string P_Barrio { get; set; }
+        public int P_Postal { get; set; }
+        public string P_Provincia { get; set; }
+        public string P_Pais { get; set; }
+        public string P_Discado_Telefono { get; set; }
+        public string P_enviocarta { get; set; }
+        public string C_Calle { get; set; }
+        public int C_Numero { get; set; }
+        public int C_Piso { get; set; }
+        public string C_Depto { get; set; }
+        public string C_Localidad { get; set; }
+        public string C_Barrio { get; set; }
+        public int C_Postal { get; set; }
+        public string C_Provincia { get; set; }
+        public string C_Pais { get; set; }
+        public string C_Discado_Telefono { get; set; }
+        public string C_Telefono { get; set; }
+        public string C_enviocarta { get; set; }
+        public string Relacion { get; set; }
+
+
+
+
+
+
+
+
+
+
+    }
+
+    public class Utf8StringWriter : StringWriter
+    {
+        //public override Encoding Encoding => Encoding.UTF8;
+        public override Encoding Encoding { get { return Encoding.UTF8; } }
+    }
+
+}
