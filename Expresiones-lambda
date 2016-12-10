@@ -1,0 +1,135 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ejemplos
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Persona> persona = new List<Persona> { new Persona { dni = 1, edad= 18, nombre = "juan", apellido = "lopez" },
+                                                        new Persona { dni = 2, edad= 20, nombre = "ana", apellido = "scoot" },
+                                                        new Persona { dni = 3, edad= 30, nombre = "jennifer", apellido = "lopez" }
+                                                      };
+
+            //retorna todas las personas con apellido "lopez"
+            IEnumerable<Persona> listaLopez = persona.Where(x => x.apellido == "lopez");
+
+            //Promedio de edad
+            double promedioEdad = persona.Average(x => x.edad);
+
+            //obtiene las dos primeras personas mayores de 10 años segun el orden asc x apellido * tambien se puede usar 
+            IEnumerable<Persona> List = persona.Where(x => x.edad >= 10).OrderBy(x => x.apellido).Take(2);
+
+            //obtiene el promedio de edad de las personas mayores a 19 años ordeados x edad desc
+            double EdadPromedioDesc = persona.Where(x => x.edad >= 19).OrderByDescending(x => x.edad).Average(x => x.edad);
+
+            //agrupando por dos campos
+            var query = persona.GroupBy(x => new { x.apellido, x.edad });
+
+            //ordenando por dos campos
+            var query2 = persona.OrderBy(c => c.dni).ThenBy(n => n.nombre);
+
+
+
+
+            //Saludo
+            Func<string> miFuncion = () => "Hola Mundo!, desde C#";
+            string saludo = miFuncion();
+
+            //suma de dos numeros
+            //Func<int,int> suma=(x)=>x+y;
+            //() => "Hola Mundo!";
+
+            Func<int, int> duplica = x => x * 2;
+            int result = duplica(7); // result vale 14
+
+            Func<int, int, int> duplica2 = (x, y) => x * y;
+            int result2 = duplica2(7, 3); // result 21 7*3
+
+            // Recibe un entero y retorna un booleano:
+            Func<int, bool> esPar = x => x % 2 == 0;
+            Console.WriteLine(esPar(2)); // Muestra "True"
+
+            // Recibe dos enteros, retorna otro entero:
+            Func<int, int, int> suma = (a, b) => a + b;
+            Console.WriteLine(suma(2, 3)); // Muestra "5"
+
+            Func<int, int, int> media = (a, b) => (a + b) / 2;
+            Console.WriteLine("Media de 2, 4 es: " + media(2, 4)); // Muestra "3"
+
+            // que retorna el máximo de dos números.
+            Func<int, int, int> maximo = (a, b) => a > b ? a : b;
+            Console.WriteLine("Maximo de 2, 4 es : " + maximo(2, 4)); // Muestra mayor
+
+            // retorna un string transformado
+            Func<string, string> TrimMays = a => a.Trim().ToUpper();
+            Console.WriteLine("Mayuscula : " + TrimMays("hola  mundo")); // Mayuscula
+            // No recibe nada, retorna un texto:
+            Func<string> hora = () => "Son las "
+                                       + DateTime.Now.ToShortTimeString();
+            Console.WriteLine(hora()); // Muestra "Son las 14:21:10"
+
+
+            /////////////////////////////////////////////////////////////////////////////////////
+
+
+
+            // Acción sin parámetros (no genérica):
+            Action saluda = () => Console.WriteLine("hola");
+            saluda();  // Muestra "hola";
+
+            // Acción que recibe un string
+            Action<string> apaga = motivo =>
+            {
+                Console.WriteLine("se apaga el sistema, motivo: " + motivo);
+                //log(motivo);
+                //shutdown();
+            };
+            apaga("mantenimiento"); // Apaga el sistema
+
+
+            //Es importante saber que en el framework están definidos los delegados Func< tipo1, tipo2..., tipoResult > 
+            //para funciones de hasta cuatro parámetros.Si necesitamos más deberemos definir los delegados a mano, 
+            //aunque esto es realmente sencillo utilizando una de las declaraciones existentes y añadiéndole el número de parámetros que deseemos.
+            //Por ejemplo, para seis parámetros la definición del genérico sería algo así como:
+
+            //public delegate
+            //       TResult Func<T1, T2, T3, T4, T5, T6, TResult>
+            //               (T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6);
+
+
+
+            ////////////////////// mostrando solo los mayores a 5 de una lista
+            int[] source = new[] { 3, 8, 4, 6, 1, 7, 9, 2, 4, 8 };
+
+            foreach (int i in source.Where(x => x > 5))
+                Console.WriteLine(i);
+
+            ///////////////////////////////////////////////////////////////////
+
+
+            Console.ReadLine();
+        }
+    }
+}
+
+
+---------------------------------------------------------------------------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ejemplos
+{
+    class Persona
+    {
+        public int dni { get; set; }
+        public string nombre { get; set; }
+        public string apellido { get; set; }
+        public int edad { get; set; }
+    }
+}
