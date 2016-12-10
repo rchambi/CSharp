@@ -1,0 +1,45 @@
+using Interfaces; //usamos refencia de la interface -- tambien hay que referenciarlo
+using System;
+using System.Reflection;
+
+namespace Inyeccion
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            ///obtener la URL de la DLL
+            var assemblyExterno = Assembly.LoadFile(@"C:\Users\koki\Documents\visual studio 2015\Projects\EjemploinyeccionDependenciaBasico\ProyectoAInyectar\bin\Debug\ProyectoAInyectar.dll");
+            var tipos = assemblyExterno.GetExportedTypes();
+            //crear la instancia del objecto 
+            IFuncionalidad objConcreto = (IFuncionalidad)Activator.CreateInstance(tipos[0]);
+            //invocacion al metodo del objecto inyectado
+            Console.WriteLine(objConcreto.obtenerTexto());
+            Console.ReadLine();
+        }
+    }
+}
+-------------------------------------------------------------------------------------------------------------------------------------------
+namespace Interfaces
+{
+    public interface IFuncionalidad
+    {
+        string obtenerTexto();
+    }
+}
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+using Interfaces; //usamos refencia de la interface -- tambien hay que referenciarlo
+
+namespace ProyectoAInyectar
+{
+    public class Inyector : IFuncionalidad
+    {
+        public string obtenerTexto()
+        {
+            return "Hola, se inyecto correctamente la app";
+        }
+    }
+}
+-------------------------------------------------------------------------------------------------------------------------------------------
+
