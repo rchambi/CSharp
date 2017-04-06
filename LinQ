@@ -1,0 +1,55 @@
+public List<TiposDeCambio> Retrieve(TiposDeCambio filter)
+{
+Servicio response = new Response
+                {
+                    Success = true,
+                    Registros = new List<Registro>{
+                        new Registro { ticambiob = 16 },
+                        new Registro { ticambiob = 17 },
+                        new Registro { ticambiob = 18 }
+                    }
+                };
+///en base a la anterior repesta que es de tipo IEnumerable podes convertir a otra lista de otro tipo
+
+return (from d in response.Registros
+         select new TiposDeCambio
+         {
+             ValorDolar = d.ticambiob
+         }).ToList();
+         
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   // Crear lista de studientes.
+            List<Student> students = new List<Student>()
+            {
+                new Student {First="Svetlana",
+                    Last="Omelchenko", 
+                    ID=111, 
+                    Street="123 Main Street",
+                    City="Seattle",
+                    Scores= new List<int> {97, 92, 81, 60}},
+                new Student {First="Claire",
+                    Last="O’Donnell", 
+                    ID=112,
+                    Street="124 Main Street",
+                    City="Redmond",
+                    Scores= new List<int> {75, 84, 91, 39}},
+                new Student {First="Sven",
+                    Last="Mortensen",
+                    ID=113,
+                    Street="125 Main Street",
+                    City="Lake City",
+                    Scores= new List<int> {88, 94, 65, 91}},
+            };
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Usar un el automapper cuando linq para convertir una liste de  un tipo a otra
+ public List<TiposDeCambioDTO> GetTiposDeCambio(TiposDeCambioDTO TipoCambio)
+ {
+  var filter = _transformMapper.Transform<TiposDeCambioDTO, TiposDeCambio>(TipoCambio);
+  var result = _tipoDeCambioManager.Obtener(filter);
+      return result == null || !result.Any() ? null :
+      result.Select(c => _transformMapper.Transform<TiposDeCambio, TiposDeCambioDTO>(c)).ToList();
+ }
+        
+        
+        
